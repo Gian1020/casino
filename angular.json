@@ -22,6 +22,14 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "public/immaginiCarteHome"
+              },
+              {
+                "glob": "**/*",
+                "input": "public/carteFrancesi"
               }
             ],
             "styles": [
@@ -88,5 +96,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "6aa7fa7d-76a7-4cac-b944-a59a6c3c9a3e"
   }
 }

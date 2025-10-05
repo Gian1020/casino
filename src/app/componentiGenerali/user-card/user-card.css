@@ -1,0 +1,68 @@
+.card {
+  
+  background-color: var(--bc);
+  color: var(--clr);
+  padding: 2rem 2.5rem;
+  border-radius: 0.75rem;
+  outline: 2px solid var(--bc);
+  outline-offset: 4px;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  line-height: 1.5;
+}
+
+.USER_PC {
+  --bc: #0F1B2D;
+  --clr: #E0F7FA;
+}
+
+.USER {
+  --bc: rgb(106, 181, 224);
+  --clr: #1C1C1C;
+}
+
+/* .UTETE_PC:hover {
+  --bc: #a1c3ee;
+}
+transition: 0.3s ese-in-out;
+.UTENTE:hover {
+  --bc: #C7D4DC;
+} */
+
+.img {
+  max-width: 100%;
+  width: 4rem;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  outline: 2px solid var(--clr);
+  outline-offset: 4px;
+  fill: var(--clr);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heading {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.info {
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.country {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  gap: .2rem;
+}
+

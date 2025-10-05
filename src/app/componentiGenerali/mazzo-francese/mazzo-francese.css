@@ -1,0 +1,136 @@
+#mazzo-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100%/3);
+  display: flex;
+  justify-content: center;
+}
+
+.mazzo {
+  position: absolute;
+  box-sizing: border-box;
+  width: 170px;
+  height: 220px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s;
+  user-select: none;
+  font-weight: bolder;
+  color: black;
+}
+
+.mazzo:nth-child(1) {
+  top: 0px;
+  left: 0px;
+  z-index: 12;
+  box-shadow:2px 4px 4px rgba(0,0,0,0.05);
+}
+
+.mazzo:nth-child(2) {
+  top: 1.5px;
+  left: 1.5px;
+  z-index: 11;
+  box-shadow: 3px 5px 6px rgba(0,0,0,0.08);
+}
+
+.mazzo:nth-child(3) {
+  top: 3px;
+  left: 3px;
+  z-index: 10;
+  box-shadow: 3px 6px 8px rgba(0,0,0,0.10);
+}
+
+.mazzo:nth-child(4) {
+  top: 4.5px;
+  left: 4.5px;
+  z-index: 9;
+  box-shadow: 4px 7px 10px rgba(0,0,0,0.12);
+}
+
+.mazzo:nth-child(5) {
+  top: 6px;
+  left: 6px;
+  z-index: 8;
+  box-shadow: 4px 8px 12px rgba(0,0,0,0.14);
+  
+}
+
+.mazzo:nth-child(6) {
+  top: 7.5px;
+  left: 7.5px;
+  z-index: 7;
+  box-shadow: 5px 8px 14px rgba(0,0,0,0.16);
+}
+
+.mazzo:nth-child(7) {
+  top: 9px;
+  left: 9px;
+  z-index: 6;
+  box-shadow: 5px 9px 16px rgba(0,0,0,0.19);
+  
+}
+
+.mazzo:nth-child(8) {
+  top: 10.5px;
+  left: 10.5px;
+  z-index: 5;
+  box-shadow: 5px 10px 18px rgba(0,0,0,0.21);
+}
+
+.mazzo:nth-child(9) {
+  top: 12px;
+  left: 12px;
+  z-index: 4;
+  box-shadow: 6px 10px 20px rgba(0,0,0,0.24);
+}
+
+.mazzo:nth-child(10) {
+  top: 13.5px;
+  left: 13.5px;
+  z-index: 3;
+  box-shadow: 6px 10px 23px rgba(0,0,0,0.27);
+}
+
+.mazzo:nth-child(11) {
+  top: 15px;
+  left: 15px;
+  z-index: 2;
+  box-shadow: 6px 10px 26px rgba(0,0,0,0.31);
+}
+
+.mazzo:nth-child(12) {
+  top: 16.5px;
+  left: 16.5px;
+  z-index: 1;
+  box-shadow: 6px 10px 30px rgba(0,0,0,0.35);
+}
+.mazzo:nth-child(13) {
+  top: 18px;
+  left: 18px;
+  z-index: 0;
+  box-shadow: 6px 10px 34px rgba(0,0,0,0.39);
+}
+
+.card-back {
+  width: 170px;
+  height: 230px;
+}
+
+
+.mazzo:first-child:active {
+  transform: scale(0.95) rotateZ(1.7deg);
+}
+
+/* #cont-vignetta{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#vignetta{
+  background-color: white;
+  border:2px solid black;
+  border-radius: 15px;
+  padding: 30px;
+
+} */
