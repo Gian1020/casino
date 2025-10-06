@@ -11,6 +11,7 @@
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  transition: 0.3s ese-in-out;
   line-height: 1.5;
 }
 
@@ -24,13 +25,18 @@
   --clr: #1C1C1C;
 }
 
-/* .UTETE_PC:hover {
+.NoWinner{
+  --bc: rgb(185, 232, 30);
+  --clr: #1C1C1C;
+}
+
+ .USER_PC:hover {
   --bc: #a1c3ee;
 }
-transition: 0.3s ese-in-out;
-.UTENTE:hover {
+
+.USER:hover {
   --bc: #C7D4DC;
-} */
+} 
 
 .img {
   max-width: 100%;

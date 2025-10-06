@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output, WritableSignal } from '@angular/core';
-import { Card } from '../../interfacciaGenerale/Card';
 import { InputMazzo } from '../../carta-alta/interfacciaCartaAlta/InputMazzo';
 
 

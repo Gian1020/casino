@@ -1,20 +1,24 @@
 <div id="contenitoreGenerale">
     <div class="contitoreCard"><app-carta-francese [inputCarta]="pcSignal"></app-carta-francese><app-user-card
-            [inputUser]="cardPcSignal"></app-user-card></div>
-    <div id="mazzo-wrapper"><app-mazzo-francese (servi)="daiCarte($event)"
+            [inputUser]="cardPcSignal" class="posLittleCard"></app-user-card></div>
+    <div id="mazzo-wrapper"><app-mazzo-francese (servi)="daiCarte()"
             [inputMazzo]="mazzoSignal"></app-mazzo-francese></div>
     <div class="contitoreCard"><app-carta-francese [inputCarta]="utenteSignal"></app-carta-francese><app-user-card
-            [inputUser]="cardUtenteSignal"></app-user-card></div>
+            [inputUser]="cardUtenteSignal" class="posLittleCard"></app-user-card></div>
 </div>
-
-@if(flagVincitorePartita==1){
+@if (flagVincitorePartita != 0) {
 <div class="cont-card">
+    @if (flagVincitorePartita == 1) {
     <app-user-card [inputUser]="cardUtenteSignal" class="cardWinner"></app-user-card>
+    }
+    @if (flagVincitorePartita == 2) {
+    <app-user-card [inputUser]="cardPcSignal" class="cardWinner"></app-user-card>
+    }
+    @if (flagVincitorePartita == 3) {
+    <app-user-card [inputUser]="cardDrowSignal" class="cardWinner"></app-user-card>
+    }
+    <div id="contButton">
+        <button (click)="tornaHome()">Home</button> <button (click)="reset()">Reset</button>
+    </div>
 </div>
-}
-@if(flagVincitorePartita==2){
-<div class="cont-card">
-    <app-user-card [inputUser]="cardUtenteSignal" class="cardWinner"></app-user-card>
-</div>
-
 }

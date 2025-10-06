@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import type { WritableSignal } from '@angular/core';
 import { Card } from '../interfacciaGenerale/Card';
 import { CartaFrancese } from '../componentiGenerali/carta-francese/carta-francese';
@@ -8,6 +8,7 @@ import { InputCarta } from './interfacciaCartaAlta/InputCarta';
 import { InputMazzo } from './interfacciaCartaAlta/InputMazzo';
 import { UserCard } from "../componentiGenerali/user-card/user-card";
 import { InputUser } from './interfacciaCartaAlta/InputUser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-carta-alta',
@@ -38,9 +39,9 @@ export class CartaAlta {
   arrCarteSfoltireMazzo: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   //var per comunicazione con componente app-user-card
-  cardUtenteSignal: WritableSignal<InputUser>= signal<InputUser>({ nome: "USER", punteggio: 0, country: "Italy"});
-  cardPcSignal:WritableSignal<InputUser>= signal<InputUser>({ nome: "USER_PC", punteggio: 0, country: "Space"});
-  
+  cardUtenteSignal: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER", punteggio: this.punteggio1, country: "Italy" });
+  cardPcSignal: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER_PC", punteggio: this.punteggio2, country: "Space" });
+  cardDrowSignal: WritableSignal<InputUser> = signal<InputUser>({ nome: "NoWinner", punteggio: 13, country: "" })
   //vincitore
   flagVincitorePartita: number = 0;
   vincitore!: string;
@@ -63,12 +64,11 @@ export class CartaAlta {
   ngOnInit() {
     this.logicaMazzo.creaCarte();
     this.logicaMazzo.mischia();
+    this.mazzo = [...this.logicaMazzo.mazzo];
   }
 
   //funzione che serve a distriduire le carte al click del figlio (app-mazzo-francese)
   distribuisciCarta() {
-    //mazzo
-    this.mazzo = this.logicaMazzo.mazzo;
     if (this.mazzo.length === 0) return;
     this.contatoreClick++;
 
@@ -84,12 +84,12 @@ export class CartaAlta {
 
     this.sfoltisciMazzo();
     this.checkWinnerRound(this.cartaUtente[this.cartaUtente.length - 1], this.cartaPc[this.cartaPc.length - 1]);
-    this.aggiornaCartaUtente();
-    this.aggiornaCartaPc();
-
+    this.aggiornaCardUtente();
+    this.aggiornaCardPc();
+    this.cardDrowSignal;
   }
   //funzione che serve a catturare l evento di click in (app-mazzo-francese)
-  daiCarte(evento: any) {
+  daiCarte() {
     this.distribuisciCarta();
   }
 
@@ -98,52 +98,54 @@ export class CartaAlta {
     this.utenteSignal.set({ carta: cartaUtente, contatore: this.contatoreClick });
   }
 
-  //funzione che serve a aggiornare i valori del pc in figlio (app-carta-francese)
   aggiornaPc(cartaPc: Card) {
     this.pcSignal.set({ carta: cartaPc, contatore: this.contatoreClick });
-    console.log(this.pcSignal);
   }
 
-  aggiornaCartaUtente(){
-    this.cardUtenteSignal.set({ nome: "USER", punteggio: this.punteggio1, country: "Italy"})
+  resetUtente() {
+    this.utenteSignal.set({ carta: {numero:"0" , seme :"0"}, contatore: this.contatoreClick });
   }
-
-  aggiornaCartaPc(){
-    this.cardPcSignal.set({ nome: "USER_PC", punteggio: this.punteggio2, country: "Space"})
+  resetPc(){
+    this.pcSignal.set({ carta: {numero:"0" , seme :"0"}, contatore: this.contatoreClick });
   }
-
-  aggiornaMazzo() {
-    this.mazzoSignal.set({ contatoreClick: this.contatoreClick, lunghezzaMazzo: this.mazzo.length, valoreBloccoClick: 0, arrCarteSfoltireMazzo: this.arrCarteSfoltireMazzo })
+  resetMazzo(){
+    this.mazzoSignal.set({ contatoreClick: 0, lunghezzaMazzo: 52, valoreBloccoClick: 0, arrCarteSfoltireMazzo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] })
   }
+  
+//funzione che serve a aggiornare i valori del pc in figlio (app-carta-francese)
+aggiornaCardUtente(){
+  this.cardUtenteSignal.set({ nome: "USER", punteggio: this.punteggio1, country: "Italy" })
+}
 
-  sfoltisciMazzo() {
-    if (this.contatoreClick % 2 == 0) {
-      this.arrCarteSfoltireMazzo.pop();
-      this.aggiornaMazzo();
-    }
+aggiornaCardPc(){
+  this.cardPcSignal.set({ nome: "USER_PC", punteggio: this.punteggio2, country: "Space" })
+}
+
+aggiornaMazzo() {
+  this.mazzoSignal.set({ contatoreClick: this.contatoreClick, lunghezzaMazzo: this.mazzo.length, valoreBloccoClick: 0, arrCarteSfoltireMazzo: this.arrCarteSfoltireMazzo })
+}
+
+sfoltisciMazzo() {
+  if (this.contatoreClick % 2 == 0) {
+    this.arrCarteSfoltireMazzo.pop();
+    this.aggiornaMazzo();
   }
+}
 
-  checkWinnerRound(carta1: Card, carta2: Card) {
+checkWinnerRound(carta1: Card, carta2: Card) {
 
-    if (this.numeri.indexOf(carta1.numero) > this.numeri.indexOf(carta2.numero)) {
+  if (this.numeri.indexOf(carta1.numero) > this.numeri.indexOf(carta2.numero)) {
+    this.simboloSeme(carta1);
+    this.commentoVincitoreRound = "Ha vinto Utente con ";
+    this.punteggio1++;
+
+  }
+  else if (this.numeri.indexOf(carta1.numero) === this.numeri.indexOf(carta2.numero)) {
+    if (carta1.seme > carta2.seme) {
       this.simboloSeme(carta1);
       this.commentoVincitoreRound = "Ha vinto Utente con ";
       this.punteggio1++;
 
-    }
-    else if (this.numeri.indexOf(carta1.numero) === this.numeri.indexOf(carta2.numero)) {
-      if (carta1.seme > carta2.seme) {
-        this.simboloSeme(carta1);
-        this.commentoVincitoreRound = "Ha vinto Utente con ";
-        this.punteggio1++;
-
-      }
-      else {
-        this.simboloSeme(carta2);
-        this.commentoVincitoreRound = "Ha vinto Pc con ";
-        this.punteggio2++;
-
-      }
     }
     else {
       this.simboloSeme(carta2);
@@ -151,32 +153,53 @@ export class CartaAlta {
       this.punteggio2++;
 
     }
-    this.commentoVincitoreRound += this.valoreSemeStringa;
+  }
+  else {
+    this.simboloSeme(carta2);
+    this.commentoVincitoreRound = "Ha vinto Pc con ";
+    this.punteggio2++;
 
-    if (this.contatoreClick == 26) {
-      this.checkWinner();
-    }
+  }
+  this.commentoVincitoreRound += this.valoreSemeStringa;
+
+  if (this.contatoreClick == 26) {
+    this.checkWinner();
+  }
+}
+
+
+simboloSeme(card: Card) {
+  this.valoreSemeStringa = `${card.numero}${this.simboliTupla[card.seme!]}`;
+}
+
+checkWinner() {
+  if (this.punteggio1 > this.punteggio2) {
+    this.flagVincitorePartita = 1;
+
+  }
+  else if (this.punteggio1 < this.punteggio2) {
+    this.flagVincitorePartita = 2;
   }
 
 
-  simboloSeme(card: Card) {
-    this.valoreSemeStringa = `${card.numero}${this.simboliTupla[card.seme!]}`;
+  else if ((this.punteggio1 == this.punteggio2)) {
+    this.flagVincitorePartita = 3;
   }
-
-  checkWinner() {
-    if (this.punteggio1 > this.punteggio2) {
-      this.flagVincitorePartita = 1;
-
-    }
-    else if (this.punteggio1 < this.punteggio2) {
-      this.flagVincitorePartita = 2;
-    }
-
-
-    else if ((this.punteggio1 == this.punteggio2)) {
-      this.flagVincitorePartita = 3;
-    }
-  }
+}
+  private router = inject(Router);
+tornaHome(){
+  this.router.navigate(['']);
+}
+reset(){
+  this.contatoreClick=0;
+  this.arrCarteSfoltireMazzo = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  this.flagVincitorePartita=0;
+  this.resetMazzo();
+  this.resetUtente();
+  this.resetPc();
+  this.logicaMazzo.mischia();
+  this.mazzo = [...this.logicaMazzo.mazzo];
+}
 }
 function Signal<T>(arg0: { numero: string; seme: string; }) {
   throw new Error('Function not implemented.');

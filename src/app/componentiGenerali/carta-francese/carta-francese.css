@@ -1,4 +1,7 @@
 .immagine-carta {
   width: 170px;
   height: 220px;
-}
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-user-drag: none; 
+  pointer-events: auto; }

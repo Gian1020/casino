@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CartaAlta } from './carta-alta/carta-alta';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,CartaAlta],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
