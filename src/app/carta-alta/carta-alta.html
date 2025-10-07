@@ -1,16 +1,27 @@
 <div id="contenitoreGenerale">
     <div class="contitoreCard">
+
         <app-carta-francese [inputCarta]="pcSignal"></app-carta-francese>
+      
         <app-user-card [inputUser]="cardPcSignal" class="posLittleCard"></app-user-card>
+    
     </div>
+    
     <div id="mazzo-wrapper">
-        <app-mazzo-francese (servi)="daiCarte()" [inputMazzo]="mazzoSignal"></app-mazzo-francese> <app-vignetta [inputVignetta]="textVignettaSignal"></app-vignetta>
+    
+      <app-mazzo-francese (servi)="daiCarte()" [inputMazzo]="mazzoSignal"></app-mazzo-francese> <app-vignetta [inputVignetta]="textVignettaSignal"></app-vignetta>
+    
     </div>
+    
     <div class="contitoreCard">
-        <app-carta-francese [inputCarta]="utenteSignal"></app-carta-francese>
-        <app-user-card [inputUser]="cardUtenteSignal" class="posLittleCard"></app-user-card>
+    
+      <app-carta-francese [inputCarta]="utenteSignal"></app-carta-francese>
+    
+      <app-user-card [inputUser]="cardUtenteSignal" class="posLittleCard"></app-user-card>
+    
     </div>
 </div>
+
 @if (flagVincitorePartita != 0) {
 <div class="cont-card">
     @if (flagVincitorePartita == 1) {
@@ -23,250 +34,7 @@
     <app-user-card [inputUser]="cardDrowSignal" class="cardWinner"></app-user-card>
     }
     <div id="contButton">
-        <button (click)="tornaHome()">Home</button> <button (click)="reset()">Reset</button>
+        <button class="buttonHomeReset" (click)="tornaHome()">Home</button> <button class="buttonHomeReset" (click)="reset()">Reset</button>
     </div>
 </div>
 }
-
-<!-- <div class="onoff-btn checkbox">
-  <input type="checkbox" class="onoff-btn-checkbox" />
-  <svg
-    class="onoff-btn-icon"
-    stroke-width="3"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M6 18 18 6M6 6l12 12"
-      stroke-linejoin="round"
-      stroke-linecap="round"
-      class="icon-cross"
-    ></path>
-    <path
-      d="m4.5 12.75 6 6 9-13.5"
-      stroke-linejoin="round"
-      stroke-linecap="round"
-      class="icon-check"
-    ></path>
-  </svg>
-</div> -->
-
-<!-- .onoff-btn {
-  --hue: 0; /* Adjust color here */
-  --saturation: 70%;
-  --height: 60px;
-  --icon-size: 36px;
-  --transition-speed: 100ms;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-
-  height: var(--height);
-  min-width: var(--height);
-
-  padding: 0rem 0rem;
-  margin: 36px 16px;
-
-  font-family: inherit;
-  font-weight: 800;
-  font-size: 1.2em;
-
-  outline: none;
-  border: none;
-  border-radius: 100ch;
-  background-color: hsl(var(--hue), var(--saturation), 40%);
-  color: hsl(var(--hue), var(--saturation), 88%);
-
-  box-shadow:
-    2px 2px 2px 0 hsl(var(--hue), var(--saturation), 20%),
-    0 0 1px -1px hsl(var(--hue), var(--saturation), 0%),
-    1px 1px 2px 15px hsl(var(--hue), var(--saturation), 40%),
-    0 0 0 16px hsl(var(--hue), var(--saturation), 60%),
-    -3px -3px 2px 15px hsl(var(--hue), var(--saturation), 75%),
-    3px 3px 4px 16px hsl(var(--hue), var(--saturation), 15%),
-    0 0 0 20px hsl(var(--hue), var(--saturation), 25%),
-    6px 6px 18px 8px hsl(var(--hue), var(--saturation), 20%),
-    2px 2px 6px 0 hsl(var(--hue), var(--saturation), 60%) inset,
-    -2px -2px 6px 0px hsl(var(--hue), var(--saturation), 20%) inset;
-
-  cursor: pointer;
-
-  transition: box-shadow var(--transition-speed) ease-in-out;
-}
-
-.onoff-btn-icon {
-  stroke: hsl(var(--hue), var(--saturation), 88%);
-  fill: none;
-  width: var(--icon-size);
-}
-
-.onoff-btn-text,
-.onoff-btn-icon {
-  transform-origin: center;
-  transition: transform var(--transition-speed) ease-in-out;
-}
-
-.onoff-btn:hover,
-.onoff-btn:focus-visible {
-  box-shadow:
-    2px 2px 2px 0 hsl(var(--hue), var(--saturation), 20%),
-    0 0 6px -1px hsl(var(--hue), var(--saturation), 10%),
-    1px 1px 2px 15px hsl(var(--hue), var(--saturation), 40%),
-    0 0 0 16px hsl(var(--hue), var(--saturation), 60%),
-    -3px -3px 2px 15px hsl(var(--hue), var(--saturation), 75%),
-    3px 3px 4px 16px hsl(var(--hue), var(--saturation), 15%),
-    0 0 0 20px hsl(var(--hue), var(--saturation), 25%),
-    6px 6px 18px 8px hsl(var(--hue), var(--saturation), 20%),
-    2px 2px 6px 0 hsl(var(--hue), var(--saturation), 80%) inset,
-    -2px -2px 6px 0px hsl(var(--hue), var(--saturation), 35%) inset;
-
-  .onoff-btn-text,
-  .onoff-btn-icon {
-    transform: scale(1.1);
-  }
-}
-
-.onoff-btn:active {
-  box-shadow:
-    2px 2px 2px 0 hsl(var(--hue), var(--saturation), 60%),
-    0 0 6px -1px hsl(var(--hue), var(--saturation), 10%),
-    1px 1px 2px 15px hsl(var(--hue), var(--saturation), 40%),
-    0 0 0 16px hsl(var(--hue), var(--saturation), 60%),
-    -3px -3px 2px 15px hsl(var(--hue), var(--saturation), 75%),
-    3px 3px 4px 16px hsl(var(--hue), var(--saturation), 15%),
-    0 0 0 20px hsl(var(--hue), var(--saturation), 25%),
-    6px 6px 18px 8px hsl(var(--hue), var(--saturation), 20%),
-    6px 6px 8px 0 hsl(var(--hue), var(--saturation), 20%) inset,
-    -6px -6px 8px 0px hsl(var(--hue), var(--saturation), 25%) inset;
-
-  .onoff-btn-text,
-  .onoff-btn-icon {
-    transform: scale(0.85);
-  }
-}
-
-.onoff-btn-checkbox {
-  position: absolute;
-  z-index: 1;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
-
-.onoff-btn:has(.onoff-btn-checkbox:checked) {
-  &:active {
-    box-shadow:
-      2px 2px 2px 0 hsl(var(--hue), var(--saturation), 60%),
-      0 0 6px -1px hsl(var(--hue), var(--saturation), 10%),
-      1px 1px 2px 15px hsl(var(--hue), var(--saturation), 40%),
-      0 0 0 16px hsl(var(--hue), var(--saturation), 60%),
-      -3px -3px 2px 15px hsl(var(--hue), var(--saturation), 75%),
-      3px 3px 4px 16px hsl(var(--hue), var(--saturation), 15%),
-      0 0 0 20px hsl(var(--hue), var(--saturation), 25%),
-      6px 6px 18px 8px hsl(var(--hue), var(--saturation), 20%),
-      6px 6px 8px 0 hsl(var(--hue), var(--saturation), 20%) inset,
-      -6px -6px 8px 0px hsl(var(--hue), var(--saturation), 25%) inset;
-
-    .onoff-btn-text,
-    .onoff-btn-icon {
-      transform: scale(0.85);
-    }
-  }
-
-  box-shadow:
-    2px 2px 2px 0 hsl(var(--hue), var(--saturation), 60%),
-    0 0 6px -1px hsl(var(--hue), var(--saturation), 10%),
-    1px 1px 2px 15px hsl(var(--hue), var(--saturation), 40%),
-    0 0 0 16px hsl(var(--hue), var(--saturation), 60%),
-    -3px -3px 2px 15px hsl(var(--hue), var(--saturation), 75%),
-    3px 3px 4px 16px hsl(var(--hue), var(--saturation), 15%),
-    0 0 0 20px hsl(var(--hue), var(--saturation), 25%),
-    6px 6px 18px 8px hsl(var(--hue), var(--saturation), 20%),
-    2px 2px 6px 0 hsl(var(--hue), var(--saturation), 20%) inset,
-    -2px -2px 6px 0px hsl(var(--hue), var(--saturation), 25%) inset;
-
-  .onoff-btn-text,
-  .onoff-btn-icon {
-    transform: scale(0.95);
-  }
-}
-
-.onoff-btn:has(.onoff-btn-checkbox:focus-visible) {
-  --saturation: 95%;
-}
-
-.onoff-btn.onoff-btn:has(.onoff-btn-checkbox:disabled) {
-  --saturation: 0%;
-
-  cursor: not-allowed;
-  box-shadow:
-    2px 2px 2px 0 hsl(var(--hue), var(--saturation), 20%),
-    0 0 1px -1px hsl(var(--hue), var(--saturation), 0%),
-    1px 1px 2px 15px hsl(var(--hue), var(--saturation), 40%),
-    0 0 0 16px hsl(var(--hue), var(--saturation), 60%),
-    -3px -3px 2px 15px hsl(var(--hue), var(--saturation), 75%),
-    3px 3px 4px 16px hsl(var(--hue), var(--saturation), 15%),
-    0 0 0 20px hsl(var(--hue), var(--saturation), 25%),
-    6px 6px 18px 8px hsl(var(--hue), var(--saturation), 20%),
-    2px 2px 6px 0 hsl(var(--hue), var(--saturation), 60%) inset,
-    -2px -2px 6px 0px hsl(var(--hue), var(--saturation), 20%) inset;
-
-  .onoff-btn-text,
-  .onoff-btn-icon {
-    transform: scale(1);
-  }
-}
-
-/* Checkbox varfiation */
-.checkbox {
-  --hue: 0; /* Adjust color here */
-  --saturation: 70%;
-}
-
-.icon-check {
-  opacity: 0;
-  transform-origin: center;
-}
-
-.checkbox:has(.onoff-btn-checkbox:checked) {
-  --hue: 140;
-
-  .icon-cross {
-    opacity: 0;
-  }
-  .icon-check {
-    opacity: 1;
-    animation: icon-rotate 0.3s ease-in-out;
-  }
-}
-
-.checkbox:has(.onoff-btn-checkbox:not(:checked)) {
-  --hue: 0;
-
-  .icon-cross {
-    opacity: 1;
-    animation: icon-rotate 0.3s ease-in-out;
-  }
-  .icon-check {
-    opacity: 0;
-  }
-}
-.icon-cross {
-  opacity: 1;
-  transform-origin: center;
-  animation: none;
-}
-
-@keyframes icon-rotate {
-  0% {
-    opacity: 0;
-    transform: rotate(-90deg);
-  }
-  100% {
-    opacity: 1;
-    transform: rotate(0deg);
-  }
-} -->
