@@ -1,10 +1,10 @@
 @if(lunghezzaMazzo > valoreBloccoClick){
 <div class="mazzo" (click)="chiediCarte()"><img class="card-back" src="carteFrancesi/carte-poker-retro.jpg"
-        alt="background carta"></div>
+        alt="background carta" draggable="false"></div>
 }
 
 @for(carte of arrCarteSfoltireMazzo; track $index){
-<div class="mazzo"><img src="carteFrancesi/carte-poker-retro.jpg" class="card-back" alt="background-carta" />
+<div class="mazzo" draggable="false"><img src="carteFrancesi/carte-poker-retro.jpg" class="card-back" alt="background-carta"/>
 </div>
 }
 <!-- @if(contatoreClick > 0){}

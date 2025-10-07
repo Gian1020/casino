@@ -1,3 +1,21 @@
 @if(contatore!=0){
+<div class="cont-bottoni">
+    <button class="button-3d">
+        <div class="button-top">
+            <span class="material-icons">❮</span>
+        </div>
+        <div class="button-bottom"></div>
+        <div class="button-base"></div>
+    </button>
+
     <img class="immagine-carta" [src]="'carteFrancesi/'+codeGiocatore+'.png'" alt="cartaFrancese" draggable="false">
-    }
+
+    <button class="button-3d">
+        <div class="button-top">
+            <span class="material-icons">❯</span>
+        </div>
+        <div class="button-bottom"></div>
+        <div class="button-base"></div>
+    </button>
+</div>
+}

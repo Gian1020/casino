@@ -13,6 +13,7 @@
   height: calc(100%/3);
   display: flex;
   justify-content: center;
+  align-items: center;
   
 }
 
@@ -20,6 +21,7 @@
   height: calc(100%/3);
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .cont-card {
   position: absolute;
@@ -80,6 +82,10 @@ button {
     0 0.375em 0 0 #dcdcdc, 0 0.425em 0 0 #cacaca, 0 0.425em 0.5em 0 #cecece;
   transition: 0.15s ease;
   cursor: pointer;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-user-drag: none; 
+  pointer-events: auto;
 }
 button:active {
   translate: 0 0.225em;

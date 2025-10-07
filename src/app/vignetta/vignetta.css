@@ -1,0 +1,13 @@
+#cont-vignetta{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#vignetta{
+  background-color: white;
+  border:2px solid black;
+  border-radius: 15px;
+  padding: 30px;
+
+}

@@ -16,7 +16,6 @@ export class LogicaMazzo {
         this.mazzo.push(carta);
       }
     }
-    console.log(this.mazzo);
   }
 
 

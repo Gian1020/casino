@@ -1,5 +1,4 @@
 .card {
-  
   background-color: var(--bc);
   color: var(--clr);
   padding: 2rem 2.5rem;
@@ -13,6 +12,10 @@
   gap: 2rem;
   transition: 0.3s ese-in-out;
   line-height: 1.5;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-user-drag: none; 
+  pointer-events: auto;
 }
 
 .USER_PC {
