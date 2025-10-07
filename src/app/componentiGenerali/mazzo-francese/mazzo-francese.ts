@@ -9,7 +9,8 @@ import { InputMazzo } from '../../carta-alta/interfacciaCartaAlta/InputMazzo';
   styleUrls: ['./mazzo-francese.css']
 })
 export class MazzoFrancese {
-  @Output() servi = new EventEmitter<void>();
+  @Output() serviCartaAlta = new EventEmitter<void>();
+  @Output() serviPoker = new EventEmitter<void>();
   @Input() inputMazzo!:WritableSignal<InputMazzo>;
   
   get contatoreClick(){
@@ -28,7 +29,9 @@ export class MazzoFrancese {
     return this.inputMazzo().lunghezzaMazzo;
   }
 
+  
 
   chiediCarte(){
-    this.servi.emit();
-  }}
+    this.serviCartaAlta.emit();
+  }
+}

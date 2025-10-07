@@ -16,9 +16,9 @@ private router = inject(Router);
       this.router.navigate(['/cartaAlta']);
       break;
      
-    // case 'poker3':
-    //   this.router.navigate(['/poker3']);
-    //   break;
+    case 'poker3':
+      this.router.navigate(['/poker3']);
+      break;
 
     // case'blackJack':
     //   this.router.navigate(['/blackJack']);

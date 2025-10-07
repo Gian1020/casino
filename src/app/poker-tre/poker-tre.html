@@ -1,1 +1,31 @@
-<p>poker-tre works!</p>
+<div id="contenitoreGenerale">
+    <div class="contitoreCard">
+        <app-carta-francese [inputCarta]="pcSignalPoker3"></app-carta-francese>
+        <app-carta-francese [inputCarta]="pcSignalPoker3"></app-carta-francese>
+        <app-carta-francese [inputCarta]="pcSignalPoker3"></app-carta-francese>
+        <app-user-card [inputUser]="cardPcSignalPoker3" class="posLittleCard"></app-user-card>
+    </div>
+    <div id="mazzo-wrapper">
+        <app-mazzo-francese (serviPoker3)="daiCarte()" [inputMazzo]="mazzoSignalPoker3"></app-mazzo-francese> <app-vignetta [inputVignetta]="textVignettaSignalPoker3"></app-vignetta>
+    </div>
+    <div class="contitoreCard">
+        <app-carta-francese [inputCarta]="utenteSignalPoker3"></app-carta-francese>
+        <app-user-card [inputUser]="cardUtenteSignalPoker3" class="posLittleCard"></app-user-card>
+    </div>
+</div>
+@if (flagVincitorePartita != 0) {
+<div class="cont-card">
+    @if (flagVincitorePartita == 1) {
+    <app-user-card [inputUser]="cardUtenteSignalPoker3" class="cardWinner"></app-user-card>
+    }
+    @if (flagVincitorePartita == 2) {
+    <app-user-card [inputUser]="cardPcSignalPoker3" class="cardWinner"></app-user-card>
+    }
+    @if (flagVincitorePartita == 3) {
+    <app-user-card [inputUser]="cardDrowSignalPoker3" class="cardWinner"></app-user-card>
+    }
+    <div id="contButtonHomeReset">
+        <button class="buttonHomeReset" (click)="tornaHome()">Home</button> <button class="buttonHomeReset" (click)="reset()">Reset</button>
+    </div>
+</div>
+}

@@ -61,13 +61,13 @@
   right: 80px;
 }
 
-#contButton{
+#contButtonHomeReset{
   display: flex;
   justify-content: center;
   gap: 10px;
 }
 
-button {
+.buttonHomeReset {
   font: inherit;
   background-color: #f0f0f0;
   border: 0;

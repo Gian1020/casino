@@ -24,39 +24,35 @@ export class CartaAlta {
   cartaUtente: Card[] = [];
   punteggio1: number = 0;
   //var comunicazione con il componente app-carta-francese
-  utenteSignal: WritableSignal<InputCarta> = signal<InputCarta>({ carta: { numero: "", seme: '' }, contatore: 0 });
+  utenteSignalCartaAlta: WritableSignal<InputCarta> = signal<InputCarta>({ carta: { numero: "", seme: '' }, contatore: 0 });
 
   //carte Pc
   cartaPc: Card[] = [];
   punteggio2: number = 0;
   //var comunicazione con il componente app-carta-francese
-  pcSignal: WritableSignal<InputCarta> = signal<InputCarta>({ carta: { numero: "", seme: '' }, contatore: 0 });
+  pcSignalCartaAlta: WritableSignal<InputCarta> = signal<InputCarta>({ carta: { numero: "", seme: '' }, contatore: 0 });
 
 
   //mazzo
   mazzo!: Card[];
-  mazzoSignal: WritableSignal<InputMazzo> = signal<InputMazzo>({ contatoreClick: 0, lunghezzaMazzo: 52, valoreBloccoClick: 0, arrCarteSfoltireMazzo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] });
+  mazzoSignalCartaAlta: WritableSignal<InputMazzo> = signal<InputMazzo>({ contatoreClick: 0, lunghezzaMazzo: 52, valoreBloccoClick: 0, arrCarteSfoltireMazzo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] });
   //sfoltisce mazzo
   contatoreClick: number = 0;
   arrCarteSfoltireMazzo: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   //var per comunicazione con componente app-user-card
-  cardUtenteSignal: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER", punteggio: this.punteggio1, country: "Italy" });
-  cardPcSignal: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER_PC", punteggio: this.punteggio2, country: "Space" });
-  cardDrowSignal: WritableSignal<InputUser> = signal<InputUser>({ nome: "NoWinner", punteggio: 13, country: "" })
+  cardUtenteSignalCartaAlta: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER", punteggio: this.punteggio1, country: "Italy" });
+  cardPcSignalCartaAlta: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER_PC", punteggio: this.punteggio2, country: "Space" });
+  cardDrowSignalCartaAlta: WritableSignal<InputUser> = signal<InputUser>({ nome: "NoWinner", punteggio: 13, country: "" })
   //vincitore
   flagVincitorePartita: number = 0;
-  vincitore!: string;
-  country!: string;
-  punteggioVincitore!: string;
-  classeCard: string = "";
 
   //vignetta
   commentoVincitoreRound!: string;
   valoreSemeStringa!: string;
-  simboliTupla: { [key: string]: string } = { "S": "♠", "C": "♣", "D": "♦", "H": "♥" };
+  simboliTupla: { [key: string]: string }[] = [{ "S": "♠" }, { "C": "♣" }, { "D": "♦" }, { "H": "♥" }];
   numeri: string[] = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-  textVignettaSignal: WritableSignal<InputVignetta>= signal<InputVignetta>({contatore:0,commento:""})
+  textVignettaSignalCartaAlta: WritableSignal<InputVignetta> = signal<InputVignetta>({ contatore: 0, commento: "" })
 
 
   //inietta il service accedere alle funzioni di logica mazzo
@@ -89,7 +85,7 @@ export class CartaAlta {
     this.aggiornaVignetta()
     this.aggiornaCardUtente();
     this.aggiornaCardPc();
-    this.cardDrowSignal;
+    this.cardDrowSignalCartaAlta;
   }
   //funzione che serve a catturare l evento di click in (app-mazzo-francese)
   daiCarte() {
@@ -98,42 +94,42 @@ export class CartaAlta {
 
   //funzione che serve a aggiornare i valori del utente in figlio (app-carta-francese)
   aggiornaUtente(cartaUtente: Card) {
-    this.utenteSignal.set({ carta: cartaUtente, contatore: this.contatoreClick });
+    this.utenteSignalCartaAlta.set({ carta: cartaUtente, contatore: this.contatoreClick });
   }
 
   aggiornaPc(cartaPc: Card) {
-    this.pcSignal.set({ carta: cartaPc, contatore: this.contatoreClick });
+    this.pcSignalCartaAlta.set({ carta: cartaPc, contatore: this.contatoreClick });
   }
 
   resetUtente() {
-    this.utenteSignal.set({ carta: { numero: "0", seme: "0" }, contatore: this.contatoreClick });
+    this.utenteSignalCartaAlta.set({ carta: { numero: "0", seme: "0" }, contatore: this.contatoreClick });
   }
   resetPc() {
-    this.pcSignal.set({ carta: { numero: "0", seme: "0" }, contatore: this.contatoreClick });
+    this.pcSignalCartaAlta.set({ carta: { numero: "0", seme: "0" }, contatore: this.contatoreClick });
   }
   resetMazzo() {
-    this.mazzoSignal.set({ contatoreClick: 0, lunghezzaMazzo: 52, valoreBloccoClick: 0, arrCarteSfoltireMazzo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] })
+    this.mazzoSignalCartaAlta.set({ contatoreClick: 0, lunghezzaMazzo: 52, valoreBloccoClick: 0, arrCarteSfoltireMazzo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] })
   }
 
   //funzione che serve a aggiornare i valori del pc in figlio (app-carta-francese)
   aggiornaCardUtente() {
-    this.cardUtenteSignal.set({ nome: "USER", punteggio: this.punteggio1, country: "Italy" })
+    this.cardUtenteSignalCartaAlta.set({ nome: "USER", punteggio: this.punteggio1, country: "Italy" })
   }
 
   aggiornaCardPc() {
-    this.cardPcSignal.set({ nome: "USER_PC", punteggio: this.punteggio2, country: "Space" })
+    this.cardPcSignalCartaAlta.set({ nome: "USER_PC", punteggio: this.punteggio2, country: "Space" })
   }
 
   aggiornaMazzo() {
-    this.mazzoSignal.set({ contatoreClick: this.contatoreClick, lunghezzaMazzo: this.mazzo.length, valoreBloccoClick: 0, arrCarteSfoltireMazzo: this.arrCarteSfoltireMazzo })
+    this.mazzoSignalCartaAlta.set({ contatoreClick: this.contatoreClick, lunghezzaMazzo: this.mazzo.length, valoreBloccoClick: 0, arrCarteSfoltireMazzo: this.arrCarteSfoltireMazzo })
   }
 
-  aggiornaVignetta(){ 
-    this.textVignettaSignal.set({contatore:this.contatoreClick, commento: this.commentoVincitoreRound});
+  aggiornaVignetta() {
+    this.textVignettaSignalCartaAlta.set({ contatore: this.contatoreClick, commento: this.commentoVincitoreRound });
   }
-  
-  resetVignetta(){
-    this.textVignettaSignal.set({contatore:0,commento:""});
+
+  resetVignetta() {
+    this.textVignettaSignalCartaAlta.set({ contatore: 0, commento: "" });
   }
 
   sfoltisciMazzo() {
@@ -152,7 +148,7 @@ export class CartaAlta {
 
     }
     else if (this.numeri.indexOf(carta1.numero) === this.numeri.indexOf(carta2.numero)) {
-      if (carta1.seme > carta2.seme) {
+      if (this.getIndice(carta1.seme) > this.getIndice(carta2.seme)) {
         this.simboloSeme(carta1);
         this.commentoVincitoreRound = "Ha vinto Utente con ";
         this.punteggio1++;
@@ -178,9 +174,15 @@ export class CartaAlta {
     }
   }
 
+  getIndice(seme: string): number {
+    return this.simboliTupla.findIndex(obj => seme in obj);
+  }
 
   simboloSeme(card: Card) {
-    this.valoreSemeStringa = `${card.numero}${this.simboliTupla[card.seme!]}`;
+    const oggettoSeme = this.simboliTupla.find(obj => card.seme! in obj);
+    if (oggettoSeme) {
+      this.valoreSemeStringa = `${card.numero}${oggettoSeme[card.seme!]}`;
+    }
   }
 
   checkWinner() {

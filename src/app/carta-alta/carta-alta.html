@@ -1,40 +1,30 @@
 <div id="contenitoreGenerale">
     <div class="contitoreCard">
-
-        <app-carta-francese [inputCarta]="pcSignal"></app-carta-francese>
-      
-        <app-user-card [inputUser]="cardPcSignal" class="posLittleCard"></app-user-card>
-    
+        <app-carta-francese [inputCarta]="pcSignalCartaAlta"></app-carta-francese>
+        <app-user-card [inputUser]="cardPcSignalCartaAlta" class="posLittleCard"></app-user-card>
     </div>
-    
     <div id="mazzo-wrapper">
-    
-      <app-mazzo-francese (servi)="daiCarte()" [inputMazzo]="mazzoSignal"></app-mazzo-francese> <app-vignetta [inputVignetta]="textVignettaSignal"></app-vignetta>
-    
+        <app-mazzo-francese (serviCartaAlta)="daiCarte()" [inputMazzo]="mazzoSignalCartaAlta"></app-mazzo-francese> <app-vignetta [inputVignetta]="textVignettaSignalCartaAlta"></app-vignetta>
     </div>
-    
     <div class="contitoreCard">
-    
-      <app-carta-francese [inputCarta]="utenteSignal"></app-carta-francese>
-    
-      <app-user-card [inputUser]="cardUtenteSignal" class="posLittleCard"></app-user-card>
-    
+        <app-carta-francese [inputCarta]="utenteSignalCartaAlta"></app-carta-francese>
+        <app-user-card [inputUser]="cardUtenteSignalCartaAlta" class="posLittleCard"></app-user-card>
     </div>
 </div>
-
 @if (flagVincitorePartita != 0) {
 <div class="cont-card">
     @if (flagVincitorePartita == 1) {
-    <app-user-card [inputUser]="cardUtenteSignal" class="cardWinner"></app-user-card>
+    <app-user-card [inputUser]="cardUtenteSignalCartaAlta" class="cardWinner"></app-user-card>
     }
     @if (flagVincitorePartita == 2) {
-    <app-user-card [inputUser]="cardPcSignal" class="cardWinner"></app-user-card>
+    <app-user-card [inputUser]="cardPcSignalCartaAlta" class="cardWinner"></app-user-card>
     }
     @if (flagVincitorePartita == 3) {
-    <app-user-card [inputUser]="cardDrowSignal" class="cardWinner"></app-user-card>
+    <app-user-card [inputUser]="cardDrowSignalCartaAlta" class="cardWinner"></app-user-card>
     }
-    <div id="contButton">
-        <button class="buttonHomeReset" (click)="tornaHome()">Home</button> <button class="buttonHomeReset" (click)="reset()">Reset</button>
+    <div id="contButtonHomeReset">
+        <button class="buttonHomeReset" (click)="tornaHome()">Home</button> <button (click)="reset()">Reset</button>
     </div>
 </div>
 }
+
