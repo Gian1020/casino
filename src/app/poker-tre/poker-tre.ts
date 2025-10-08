@@ -10,6 +10,7 @@ import { InputVignetta } from '../carta-alta/interfacciaCartaAlta/InputVignetta'
 import { InputMazzo } from '../carta-alta/interfacciaCartaAlta/InputMazzo';
 import { InputCarta } from '../carta-alta/interfacciaCartaAlta/InputCarta';
 import { Vignetta } from "../vignetta/vignetta";
+import { InputCartaP3 } from './interfaccePoker3/InputCartaP3';
 
 @Component({
   selector: 'app-poker-tre',
@@ -22,13 +23,13 @@ export class PokerTre {
   carteUtente: Card[] = [];
   comboMaxUtente!: CombinazioneMax;
   punteggioUtene: number = 0;
-  utenteSignalPoker3: WritableSignal<InputCarta> = signal<InputCarta>({ carta: { numero: "", seme: '' }, contatore: 0 });
+  utenteSignalPoker3: WritableSignal<InputCartaP3> = signal<InputCartaP3>({ carte: [], contatore: 0 });
 
   //PC
   cartePc: Card[] = [];
   comboMaxPc!: CombinazioneMax;
   punteggioPc: number = 0;
-  pcSignalPoker3: WritableSignal<InputCarta> = signal<InputCarta>({ carta: { numero: "", seme: '' }, contatore: 0 });
+  pcSignalPoker3: WritableSignal<InputCartaP3> = signal<InputCartaP3>({ carte: [], contatore: 0 });
 
   //mazzo
   mazzo!: Card[];
@@ -79,7 +80,7 @@ export class PokerTre {
         this.cartePc.push(cartaP);
       }
       this.sfoltisciMazzo()
-      //funzione che controlla la vitoria
+      //funzione che controlla la vittoria
       this.checkWinnerRound(this.controlloMaxPunteggio(this.carteUtente), this.controlloMaxPunteggio(this.cartePc));
 
       this.commentoVincitoreRound = "Ha vinto il giocatore " + this.stringaComboRound + " il round numero " + this.contatoreClick;
