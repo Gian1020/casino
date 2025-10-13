@@ -8,9 +8,8 @@ import { MazzoFrancese } from "../componentiGenerali/mazzo-francese/mazzo-france
 import { InputUser } from '../carta-alta/interfacciaCartaAlta/InputUser';
 import { InputVignetta } from '../carta-alta/interfacciaCartaAlta/InputVignetta';
 import { InputMazzo } from '../carta-alta/interfacciaCartaAlta/InputMazzo';
-import { InputCarta } from '../carta-alta/interfacciaCartaAlta/InputCarta';
 import { Vignetta } from "../vignetta/vignetta";
-import { InputCartaP3 } from './interfaccePoker3/InputCartaP3';
+import { InputCarteP3 } from './interfaccePoker3/InputCarteP3';
 
 @Component({
   selector: 'app-poker-tre',
@@ -23,13 +22,13 @@ export class PokerTre {
   carteUtente: Card[] = [];
   comboMaxUtente!: CombinazioneMax;
   punteggioUtene: number = 0;
-  utenteSignalPoker3: WritableSignal<InputCartaP3> = signal<InputCartaP3>({ carte: [], contatore: 0 });
+  utenteSignalPoker3: WritableSignal<InputCarteP3> = signal<InputCarteP3>({ carte: [], contatore: 0 });
 
   //PC
   cartePc: Card[] = [];
   comboMaxPc!: CombinazioneMax;
   punteggioPc: number = 0;
-  pcSignalPoker3: WritableSignal<InputCartaP3> = signal<InputCartaP3>({ carte: [], contatore: 0 });
+  pcSignalPoker3: WritableSignal<InputCarteP3> = signal<InputCarteP3>({ carte: [], contatore: 0 });
 
   //mazzo
   mazzo!: Card[];
@@ -97,6 +96,14 @@ export class PokerTre {
     if (this.contatoreClick % 1 == 0) {
       this.numeroCarteVisualizzazioneMazzo.pop();
     }
+  }
+
+  aggiornaCarteUtente(){
+    this.utenteSignalPoker3.set({carte:this.carteUtente, contatore:this.contatoreClick}); 
+  }
+
+  aggiornaCartePc(){
+    this.pcSignalPoker3.set({carte:this.cartePc, contatore:this.contatoreClick});
   }
 
   controlloMaxPunteggio(carteGiocatoreDaControllare: Card[]): CombinazioneMax {

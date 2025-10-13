@@ -1,7 +1,7 @@
 import { Component, effect, Input, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputCarta } from '../../carta-alta/interfacciaCartaAlta/InputCarta';
-import { InputCartaP3 } from '../../poker-tre/interfaccePoker3/InputCartaP3';
+import { InputCarteP3 } from '../../poker-tre/interfaccePoker3/InputCarteP3';
 
 
 @Component({
@@ -22,6 +22,7 @@ export class CartaFrancese {
   return this.inputCarta().contatore;
  }
 
- @Input() InputCartaP3!:Signal<InputCartaP3>;
+ @Input() inputCartaP3!:Signal<InputCarteP3>;
+
 }
 
