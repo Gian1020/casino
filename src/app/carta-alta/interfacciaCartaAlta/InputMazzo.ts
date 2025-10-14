@@ -3,4 +3,5 @@ export interface InputMazzo{
     lunghezzaMazzo:number;
     valoreBloccoClick:number;
     arrCarteSfoltireMazzo:number[];
+    gioco:string;
 }

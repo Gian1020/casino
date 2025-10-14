@@ -10,10 +10,6 @@ import { InputVignetta } from '../carta-alta/interfacciaCartaAlta/InputVignetta'
 export class Vignetta {
   @Input() inputVignetta!:Signal<InputVignetta>;
 
-  get contatore (){
-    return this.inputVignetta().contatore;
-  }
-
   get commento (){
     return this.inputVignetta().commento;
   }

@@ -24,18 +24,18 @@ export class CartaAlta {
   cartaUtente: Card[] = [];
   punteggio1: number = 0;
   //var comunicazione con il componente app-carta-francese
-  utenteSignalCartaAlta: WritableSignal<InputCarta> = signal<InputCarta>({ carta: { numero: "", seme: '' }, contatore: 0 });
+  utenteSignalCartaAlta: WritableSignal<InputCarta> = signal<InputCarta>({ numero: "", seme: '' });
 
   //carte Pc
   cartaPc: Card[] = [];
   punteggio2: number = 0;
   //var comunicazione con il componente app-carta-francese
-  pcSignalCartaAlta: WritableSignal<InputCarta> = signal<InputCarta>({ carta: { numero: "", seme: '' }, contatore: 0 });
+  pcSignalCartaAlta: WritableSignal<InputCarta> = signal<InputCarta>({ numero: "", seme: '' });
 
 
   //mazzo
   mazzo!: Card[];
-  mazzoSignalCartaAlta: WritableSignal<InputMazzo> = signal<InputMazzo>({ contatoreClick: 0, lunghezzaMazzo: 52, valoreBloccoClick: 0, arrCarteSfoltireMazzo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] });
+  mazzoSignalCartaAlta: WritableSignal<InputMazzo> = signal<InputMazzo>({ contatoreClick: 0, lunghezzaMazzo: 52, valoreBloccoClick: 0, arrCarteSfoltireMazzo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], gioco:"cartaAlta"  });
   //sfoltisce mazzo
   contatoreClick: number = 0;
   arrCarteSfoltireMazzo: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -52,7 +52,7 @@ export class CartaAlta {
   valoreSemeStringa!: string;
   simboliTupla: { [key: string]: string }[] = [{ "S": "♠" }, { "C": "♣" }, { "D": "♦" }, { "H": "♥" }];
   numeri: string[] = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-  textVignettaSignalCartaAlta: WritableSignal<InputVignetta> = signal<InputVignetta>({ contatore: 0, commento: "" })
+  textVignettaSignalCartaAlta: WritableSignal<InputVignetta> = signal<InputVignetta>({ commento: "" })
 
 
   //inietta il service accedere alle funzioni di logica mazzo
@@ -94,21 +94,21 @@ export class CartaAlta {
 
   //funzione che serve a aggiornare i valori del utente in figlio (app-carta-francese)
   aggiornaUtente(cartaUtente: Card) {
-    this.utenteSignalCartaAlta.set({ carta: cartaUtente, contatore: this.contatoreClick });
+    this.utenteSignalCartaAlta.set( { numero: cartaUtente.numero , seme: cartaUtente.seme });
   }
 
   aggiornaPc(cartaPc: Card) {
-    this.pcSignalCartaAlta.set({ carta: cartaPc, contatore: this.contatoreClick });
+    this.pcSignalCartaAlta.set({ numero: cartaPc.numero, seme: cartaPc.seme });
   }
 
   resetUtente() {
-    this.utenteSignalCartaAlta.set({ carta: { numero: "0", seme: "0" }, contatore: this.contatoreClick });
+    this.utenteSignalCartaAlta.set({ numero: "0", seme: "0"});
   }
   resetPc() {
-    this.pcSignalCartaAlta.set({ carta: { numero: "0", seme: "0" }, contatore: this.contatoreClick });
+    this.pcSignalCartaAlta.set({ numero: "0", seme: "0" });
   }
   resetMazzo() {
-    this.mazzoSignalCartaAlta.set({ contatoreClick: 0, lunghezzaMazzo: 52, valoreBloccoClick: 0, arrCarteSfoltireMazzo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] })
+    this.mazzoSignalCartaAlta.set({ contatoreClick: 0, lunghezzaMazzo: 52, valoreBloccoClick: 0, arrCarteSfoltireMazzo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], gioco:"cartaAlta" })
   }
 
   //funzione che serve a aggiornare i valori del pc in figlio (app-carta-francese)
@@ -121,15 +121,15 @@ export class CartaAlta {
   }
 
   aggiornaMazzo() {
-    this.mazzoSignalCartaAlta.set({ contatoreClick: this.contatoreClick, lunghezzaMazzo: this.mazzo.length, valoreBloccoClick: 0, arrCarteSfoltireMazzo: this.arrCarteSfoltireMazzo })
+    this.mazzoSignalCartaAlta.set({ contatoreClick: this.contatoreClick, lunghezzaMazzo: this.mazzo.length, valoreBloccoClick: 0, arrCarteSfoltireMazzo: this.arrCarteSfoltireMazzo, gioco:"cartaAlta"  })
   }
 
   aggiornaVignetta() {
-    this.textVignettaSignalCartaAlta.set({ contatore: this.contatoreClick, commento: this.commentoVincitoreRound });
+    this.textVignettaSignalCartaAlta.set({ commento: this.commentoVincitoreRound });
   }
 
   resetVignetta() {
-    this.textVignettaSignalCartaAlta.set({ contatore: 0, commento: "" });
+    this.textVignettaSignalCartaAlta.set({ commento: "" });
   }
 
   sfoltisciMazzo() {
@@ -198,8 +198,11 @@ export class CartaAlta {
     else if ((this.punteggio1 == this.punteggio2)) {
       this.flagVincitorePartita = 3;
     }
-  }
+  
+}
+
   private router = inject(Router);
+
   tornaHome() {
     this.router.navigate(['']);
   }
@@ -210,6 +213,7 @@ export class CartaAlta {
     this.resetMazzo();
     this.resetUtente();
     this.resetPc();
+    this.resetVignetta();
     this.logicaMazzo.mischia();
     this.mazzo = [...this.logicaMazzo.mazzo];
   }

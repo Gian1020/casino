@@ -10,7 +10,7 @@ import { InputMazzo } from '../../carta-alta/interfacciaCartaAlta/InputMazzo';
 })
 export class MazzoFrancese {
   @Output() serviCartaAlta = new EventEmitter<void>();
-  @Output() serviPoker = new EventEmitter<void>();
+  @Output() serviPoker3 = new EventEmitter<void>();
   @Input() inputMazzo!:WritableSignal<InputMazzo>;
   
   get contatoreClick(){
@@ -29,9 +29,16 @@ export class MazzoFrancese {
     return this.inputMazzo().lunghezzaMazzo;
   }
 
-  
+  get gioco():string{
+    return this.inputMazzo().gioco;
+  }
 
   chiediCarte(){
-    this.serviCartaAlta.emit();
+    if(this.gioco=="poker3"){
+    this.serviPoker3.emit()}
+    if(this.gioco=="cartaAlta"){
+    this.serviCartaAlta.emit();}
   }
+
+  
 }

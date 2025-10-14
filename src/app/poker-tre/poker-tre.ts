@@ -1,4 +1,4 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { CombinazioneMax } from '../interfacciaPoker3/ComboMaxPoker';
 import { Card } from '../interfacciaGenerale/Card';
 import { LogicaMazzo } from '../service/logica-mazzo';
@@ -8,8 +8,9 @@ import { MazzoFrancese } from "../componentiGenerali/mazzo-francese/mazzo-france
 import { InputUser } from '../carta-alta/interfacciaCartaAlta/InputUser';
 import { InputVignetta } from '../carta-alta/interfacciaCartaAlta/InputVignetta';
 import { InputMazzo } from '../carta-alta/interfacciaCartaAlta/InputMazzo';
+import { Router } from '@angular/router';
 import { Vignetta } from "../vignetta/vignetta";
-import { InputCarteP3 } from './interfaccePoker3/InputCarteP3';
+import { InputCarta } from '../carta-alta/interfacciaCartaAlta/InputCarta';
 
 @Component({
   selector: 'app-poker-tre',
@@ -22,18 +23,22 @@ export class PokerTre {
   carteUtente: Card[] = [];
   comboMaxUtente!: CombinazioneMax;
   punteggioUtene: number = 0;
-  utenteSignalPoker3: WritableSignal<InputCarteP3> = signal<InputCarteP3>({ carte: [], contatore: 0 });
+  utenteSignalCarta1: WritableSignal<InputCarta> = signal<InputCarta>({ numero: "", seme: "" });
+  utenteSignalCarta2: WritableSignal<InputCarta> = signal<InputCarta>({ numero: "", seme: "" });
+  utenteSignalCarta3: WritableSignal<InputCarta> = signal<InputCarta>({ numero: "", seme: "" });
 
   //PC
   cartePc: Card[] = [];
   comboMaxPc!: CombinazioneMax;
   punteggioPc: number = 0;
-  pcSignalPoker3: WritableSignal<InputCarteP3> = signal<InputCarteP3>({ carte: [], contatore: 0 });
+  pcSignalCarta1: WritableSignal<InputCarta> = signal<InputCarta>({ numero: "", seme: "" });
+  pcSignalCarta2: WritableSignal<InputCarta> = signal<InputCarta>({ numero: "", seme: "" });
+  pcSignalCarta3: WritableSignal<InputCarta> = signal<InputCarta>({ numero: "", seme: "" });
 
   //mazzo
   mazzo!: Card[];
-  mazzoSignalPoker3: WritableSignal<InputMazzo> = signal<InputMazzo>({ contatoreClick: 0, lunghezzaMazzo: 52, valoreBloccoClick: 0, arrCarteSfoltireMazzo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] });
- 
+  mazzoSignalPoker3: WritableSignal<InputMazzo> = signal<InputMazzo>({ contatoreClick: 0, lunghezzaMazzo: 52, valoreBloccoClick: 0, arrCarteSfoltireMazzo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], gioco: "poker3" });
+
   //commento della vittoria di ogni round
   stringaComboRound!: string;
   commentoVincitoreRound!: string;
@@ -43,18 +48,19 @@ export class PokerTre {
   numeroCarteVisualizzazioneMazzo: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
   //var per comunicazione con componente app-user-card
-  cardUtenteSignalPoker3: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER", punteggio: this.punteggioUtene, country: "Italy" });
-  cardPcSignalPoker3: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER_PC", punteggio: this.punteggioPc, country: "Space" });
-  cardDrowSignalPoker3: WritableSignal<InputUser> = signal<InputUser>({ nome: "NoWinner", punteggio: 4, country: "" })
-  textVignettaSignalPoker3: WritableSignal<InputVignetta>= signal<InputVignetta>({contatore:0,commento:""})
-  
+  cardUtenteSignalPoker3: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER", punteggio: 0, country: "Italy" });
+  cardPcSignalPoker3: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER_PC", punteggio: 0, country: "Space" });
+  cardDrowSignalPoker3: WritableSignal<InputUser> = signal<InputUser>({ nome: "NoWinner", punteggio: 4, country: "" });
+  textVignettaSignalPoker3: WritableSignal<InputVignetta> = signal<InputVignetta>({ commento: "" });
+
   //variabili che servono per la card Winner
   flagVincitorePartita: number = 0;
   chiHaVinto: string = "";
   punteggioVincitore: string = "";
   country: string = "";
   classeCard: string = "";
-  router: any;
+  arrValori: string[] = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+
 
   constructor(private logicaMazzo: LogicaMazzo) {
   }
@@ -78,18 +84,22 @@ export class PokerTre {
         const cartaP = mazzo.shift()!;
         this.cartePc.push(cartaP);
       }
-      this.sfoltisciMazzo()
+      this.aggiornaCarteUtente();
+      this.aggiornaCartePc();
+      this.aggiornaCardUtente();
+      this.aggiornaCardPc()
+      this.sfoltisciMazzo();
+      this.aggiornaMazzo();
       //funzione che controlla la vittoria
       this.checkWinnerRound(this.controlloMaxPunteggio(this.carteUtente), this.controlloMaxPunteggio(this.cartePc));
 
-      this.commentoVincitoreRound = "Ha vinto il giocatore " + this.stringaComboRound + " il round numero " + this.contatoreClick;
-
-      this.vincitoreFinale();
+      this.commentoVincitoreRound = "Ha vinto il giocatore " + this.stringaComboRound + " il round n. " + this.contatoreClick;
+      this.aggiornaVignetta();
     }
   }
 
-  daiCarte(){
-    this.distribuisci(this.mazzo)
+  daiCarte() {
+    this.distribuisci(this.mazzo);
   }
 
   sfoltisciMazzo() {
@@ -98,12 +108,60 @@ export class PokerTre {
     }
   }
 
-  aggiornaCarteUtente(){
-    this.utenteSignalPoker3.set({carte:this.carteUtente, contatore:this.contatoreClick}); 
+  aggiornaCarteUtente() {
+    this.utenteSignalCarta1.set({ numero: this.carteUtente[0].numero, seme: this.carteUtente[0].seme });
+    this.utenteSignalCarta2.set({ numero: this.carteUtente[1].numero, seme: this.carteUtente[1].seme });
+    this.utenteSignalCarta3.set({ numero: this.carteUtente[2].numero, seme: this.carteUtente[2].seme });
   }
 
-  aggiornaCartePc(){
-    this.pcSignalPoker3.set({carte:this.cartePc, contatore:this.contatoreClick});
+  resetCarteUtente() {
+    this.utenteSignalCarta1.set({ numero: "", seme: "" });
+    this.utenteSignalCarta2.set({ numero: "", seme: "" });
+    this.utenteSignalCarta3.set({ numero: "", seme: "" });
+  }
+
+  aggiornaCartePc() {
+    this.pcSignalCarta1.set({ numero: this.cartePc[0].numero, seme: this.cartePc[0].seme });
+    this.pcSignalCarta2.set({ numero: this.cartePc[1].numero, seme: this.cartePc[1].seme });
+    this.pcSignalCarta3.set({ numero: this.cartePc[2].numero, seme: this.cartePc[2].seme });
+  }
+
+  resetCartePc() {
+    this.pcSignalCarta1.set({ numero: "", seme: "" });
+    this.pcSignalCarta2.set({ numero: "", seme: "" });
+    this.pcSignalCarta3.set({ numero: "", seme: "" });
+  }
+
+  aggiornaCardUtente() {
+    this.cardUtenteSignalPoker3.set({ nome: "USER", punteggio: this.punteggioUtene, country: "Italy" });
+  }
+
+  resetCardUtente() {
+    this.cardUtenteSignalPoker3.set({ nome: "USER", punteggio: 0, country: "Italy" });
+  }
+
+  aggiornaCardPc() {
+    this.cardPcSignalPoker3.set({ nome: "USER_PC", punteggio: this.punteggioPc, country: "Space" });
+  }
+
+  resetCardPc() {
+    this.cardPcSignalPoker3.set({ nome: "USER_PC", punteggio: 0, country: "Space" });
+  }
+
+  aggiornaVignetta() {
+    this.textVignettaSignalPoker3.set({ commento: this.commentoVincitoreRound })
+  }
+
+  resetVignetta() {
+    this.textVignettaSignalPoker3.set({ commento: "" });
+  }
+
+  aggiornaMazzo() {
+    this.mazzoSignalPoker3.set({ contatoreClick: this.contatoreClick, lunghezzaMazzo: this.mazzo.length, valoreBloccoClick: 0, arrCarteSfoltireMazzo: this.numeroCarteVisualizzazioneMazzo, gioco: "poker3" })
+  }
+
+  resetMazzo() {
+    this.mazzoSignalPoker3.set({ contatoreClick: 0, lunghezzaMazzo: 52, valoreBloccoClick: 0, arrCarteSfoltireMazzo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], gioco: "poker3" });
   }
 
   controlloMaxPunteggio(carteGiocatoreDaControllare: Card[]): CombinazioneMax {
@@ -161,7 +219,7 @@ export class PokerTre {
   controlloCoppia(mano: Card[]) {
     for (let i = 0; i < mano.length - 1; i++) {
       for (let j = i + 1; j < mano.length; j++) {
-        if ((mano[i].numero ?? 0) === (mano[j].numero ?? 0)) {
+        if (this.arrValori.indexOf(mano[i].numero) === this.arrValori.indexOf(mano[j].numero)) {
           return true;
         }
       }
@@ -173,16 +231,17 @@ export class PokerTre {
     //controllo scala tranne caso A 2 3
     let contatore = 0;
     for (let i = 0; i < mano.length - 1; i++) {
-      if ((Number(mano[i].numero)) == Number((mano[i + 1].numero)) - 1) {
+      if (this.arrValori.indexOf(mano[i].numero) == this.arrValori.indexOf(mano[i + 1].numero) - 1) {
         contatore++;
       }
     }
     if (contatore == 2) return true;
-    let arr = [];
+    let arr: string[] = [];
     for (let carte of mano) {
       arr.push(carte.numero);
     }
-    if (arr.map(Number).includes(14) && arr.map(Number).includes(2) && arr.map(Number).includes(3)) {
+
+    if (arr.includes("A") && arr.includes("2") && arr.includes("3")) {
       return true;
     }
 
@@ -192,7 +251,7 @@ export class PokerTre {
   controlloSimbolo(mano: Card[]): boolean {
     let contatore: number = 0;
     for (let i = 0; i < mano.length - 1; i++) {
-      if ((mano[i].seme ?? 0) == (mano[i + 1].seme ?? 0)) {
+      if ((mano[i].seme) == (mano[i + 1].seme)) {
         contatore++
       }
     }
@@ -200,31 +259,6 @@ export class PokerTre {
       return true;
     }
     else return false;
-  }
-
-  vincitoreFinale() {
-    if (this.contatoreClick == 8) {
-      if (this.punteggioUtene > this.punteggioPc) {
-        this.flagVincitorePartita = 1;
-        this.chiHaVinto = "Utente";
-        this.punteggioVincitore = "Punteggio: " + `${this.punteggioUtene}`;
-        this.country = "Italy";
-        this.classeCard = "card-utente";
-      }
-      else if (this.punteggioUtene < this.punteggioPc) {
-        this.flagVincitorePartita = 2;
-        this.chiHaVinto = "Utente_PC";
-        this.punteggioVincitore = "Punteggio: " + `${this.punteggioPc}`;
-        this.country = "Spazio";
-        this.classeCard = "card-pc";
-      }
-      else {
-        this.flagVincitorePartita = 3;
-        this.chiHaVinto = "Patta";
-        this.punteggioVincitore = "Punteggio: PARI";
-        this.classeCard = "card-pc";
-      }
-    }
   }
 
   checkWinnerRound(comboMaxUtente: CombinazioneMax, comboMaxPc: CombinazioneMax) {
@@ -250,11 +284,11 @@ export class PokerTre {
         }
       case (comboMaxUtente.combo == comboMaxPc.combo && comboMaxUtente.combo == 4):
         {
-          if (comboMaxUtente.cards[0].numero! > comboMaxPc.cards[0].numero!) {
+          if (this.arrValori.indexOf(comboMaxUtente.cards[0].numero) > this.arrValori.indexOf(comboMaxPc.cards[0].numero)) {
             this.punteggioUtene++;
             this.stringaComboRound = "l'Utente con " + comboMaxUtente.nomeCombo;
           }
-          else if (comboMaxUtente.cards[0].numero! < comboMaxPc.cards[0].numero!) {
+          else if (this.arrValori.indexOf(comboMaxUtente.cards[0].numero) < this.arrValori.indexOf(comboMaxPc.cards[0].numero)) {
             this.punteggioPc++;
             this.stringaComboRound = "il PC con " + comboMaxPc.nomeCombo;;
           }
@@ -274,17 +308,17 @@ export class PokerTre {
         }
 
       case (comboMaxUtente.combo == comboMaxPc.combo && comboMaxUtente.combo == 1): {
-        if (comboMaxUtente.cards[1].numero! > comboMaxPc.cards[1].numero!) {
+        if (this.arrValori.indexOf(comboMaxUtente.cards[1].numero)> this.arrValori.indexOf(comboMaxPc.cards[1].numero)) {
           this.punteggioUtene++;
           this.stringaComboRound = "l'Utente con " + comboMaxUtente.nomeCombo;
         }
-        else if (comboMaxUtente.cards[1].numero! < comboMaxPc.cards[1].numero!) {
+        else if (this.arrValori.indexOf(comboMaxUtente.cards[1].numero)< this.arrValori.indexOf(comboMaxPc.cards[1].numero)) {
           this.punteggioPc++;
           this.stringaComboRound = "il PC con " + comboMaxPc.nomeCombo;
         }
         else {
-          let valoreCheNonCoppiaUtente: number = this.trovaDiverso(Number(comboMaxUtente.cards[0].numero), Number(comboMaxUtente.cards[1].numero), Number(comboMaxUtente.cards[2].numero));
-          let valoreCheNonCoppiaPC: number = this.trovaDiverso(Number(comboMaxPc.cards[0].numero), Number(comboMaxPc.cards[1].numero), Number(comboMaxPc.cards[2].numero));
+          let valoreCheNonCoppiaUtente: number = this.trovaDiverso(this.arrValori.indexOf(comboMaxUtente.cards[0].numero), this.arrValori.indexOf(comboMaxUtente.cards[1].numero), this.arrValori.indexOf(comboMaxUtente.cards[2].numero));
+          let valoreCheNonCoppiaPC: number = this.trovaDiverso(this.arrValori.indexOf(comboMaxPc.cards[0].numero), this.arrValori.indexOf(comboMaxPc.cards[1].numero), this.arrValori.indexOf(comboMaxPc.cards[2].numero));
           if (valoreCheNonCoppiaUtente > valoreCheNonCoppiaPC) {
             this.punteggioUtene++;
             this.stringaComboRound = "l'Utente con " + comboMaxUtente.nomeCombo;
@@ -312,17 +346,17 @@ export class PokerTre {
     return a; // per forza b === c
   }
   controllaComboScala(comboMaxUtente: CombinazioneMax, comboMaxPc: CombinazioneMax) {
-    if (comboMaxUtente.cards[0].numero! > comboMaxPc.cards[0].numero!) {
+    if (this.arrValori.indexOf(comboMaxUtente.cards[0].numero) > this.arrValori.indexOf(comboMaxPc.cards[0].numero)) {
       this.punteggioUtene++;
       this.stringaComboRound = "l'Utente con " + comboMaxUtente.nomeCombo;
     }
-    else if (comboMaxUtente.cards[0].numero! < comboMaxPc.cards[0].numero!) {
+    else if (this.arrValori.indexOf(comboMaxUtente.cards[0].numero) < this.arrValori.indexOf(comboMaxPc.cards[0].numero)) {
       this.punteggioPc++;
       this.stringaComboRound = "il PC con " + comboMaxPc.nomeCombo;
     }
-    else if (comboMaxUtente.cards[0].numero! == comboMaxPc.cards[0].numero!) {
+    else if (this.arrValori.indexOf(comboMaxUtente.cards[0].numero) == this.arrValori.indexOf(comboMaxPc.cards[0].numero)) {
       if (Number(comboMaxUtente.cards[0].numero) == 2) {
-        if (comboMaxUtente.cards[comboMaxUtente.cards.length - 1].numero! < comboMaxPc.cards[comboMaxPc.cards.length - 1].numero!) {
+        if (this.arrValori.indexOf(comboMaxUtente.cards[comboMaxUtente.cards.length - 1].numero) < this.arrValori.indexOf(comboMaxPc.cards[comboMaxPc.cards.length - 1].numero)) {
           this.punteggioUtene++;
           this.stringaComboRound = "l'Utente con " + comboMaxUtente.nomeCombo;
         }
@@ -335,24 +369,33 @@ export class PokerTre {
   }
   controlloCartaAlta(comboMaxUtente: CombinazioneMax, comboMaxPc: CombinazioneMax) {
     for (let i = comboMaxUtente.cards.length - 1; i >= 0; i--) {
-      if (comboMaxUtente.cards[i].numero! > comboMaxPc.cards[i].numero!) {
+      if (this.arrValori.indexOf(comboMaxUtente.cards[i].numero) > this.arrValori.indexOf(comboMaxPc.cards[i].numero)) {
         this.punteggioUtene++;
         this.stringaComboRound = "l'Utente con " + comboMaxUtente.nomeCombo;
         break;
       }
-      if (comboMaxUtente.cards[i].numero! < comboMaxPc.cards[i].numero!) {
+      if (this.arrValori.indexOf(comboMaxUtente.cards[i].numero) < this.arrValori.indexOf(comboMaxPc.cards[i].numero)) {
         this.punteggioPc++;
         this.stringaComboRound = "il PC con " + comboMaxPc.nomeCombo;
         break;
       }
     }
   }
-  
+
+  private router = inject(Router);
+
   tornaHome() {
     this.router.navigate(['']);
   }
-  reset(){
-    
+  reset() {
+
+    this.resetCardUtente();
+    this.resetCardPc();
+    this.resetCarteUtente();
+    this.resetCartePc();
+    this.resetVignetta();
+    this.resetMazzo();
+
   }
 }
 

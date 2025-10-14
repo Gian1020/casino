@@ -1,19 +1,17 @@
 <div id="contenitoreGenerale">
     <div class="contitoreCard">
-<<<<<<< HEAD
-        <app-carta-francese [inputCarta]="pcSignalPoker3"></app-carta-francese>
-=======
-        <app-carta-francese [InputCartaP3]="pcSignalPoker3"></app-carta-francese>
-        <app-carta-francese [InputCartaP3]="pcSignalPoker3"></app-carta-francese>
-        <app-carta-francese [InputCartaP3]="pcSignalPoker3"></app-carta-francese>
->>>>>>> f470b58d8d4a7f153964b6aa9e46df2c8d6e3f94
+        <app-carta-francese [inputCarta]="pcSignalCarta1"></app-carta-francese>
+        <app-carta-francese [inputCarta]="pcSignalCarta2"></app-carta-francese>
+        <app-carta-francese [inputCarta]="pcSignalCarta3"></app-carta-francese>
         <app-user-card [inputUser]="cardPcSignalPoker3" class="posLittleCard"></app-user-card>
     </div>
     <div id="mazzo-wrapper">
         <app-mazzo-francese (serviPoker3)="daiCarte()" [inputMazzo]="mazzoSignalPoker3"></app-mazzo-francese> <app-vignetta [inputVignetta]="textVignettaSignalPoker3"></app-vignetta>
     </div>
     <div class="contitoreCard">
-        <app-carta-francese [InputCartaP3]="utenteSignalPoker3"></app-carta-francese>
+        <app-carta-francese [inputCarta]="utenteSignalCarta1"></app-carta-francese>
+        <app-carta-francese [inputCarta]="utenteSignalCarta2"></app-carta-francese>
+        <app-carta-francese [inputCarta]="utenteSignalCarta3"></app-carta-francese>
         <app-user-card [inputUser]="cardUtenteSignalPoker3" class="posLittleCard"></app-user-card>
     </div>
 </div>

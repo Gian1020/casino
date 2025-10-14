@@ -1,8 +1,6 @@
 import { Component, effect, Input, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputCarta } from '../../carta-alta/interfacciaCartaAlta/InputCarta';
-import { InputCarteP3 } from '../../poker-tre/interfaccePoker3/InputCarteP3';
-
 
 @Component({
   selector: 'app-carta-francese',
@@ -15,14 +13,15 @@ export class CartaFrancese {
   @Input() inputCarta!:Signal<InputCarta>;
   
   get codeGiocatore(): string {
-    const carta = this.inputCarta().carta; 
-    return carta.numero! + carta.seme!;
+    return this.inputCarta().numero! + this.inputCarta().seme!;
   }
-  get contatore(): number {
-  return this.inputCarta().contatore;
- }
 
- @Input() inputCartaP3!:Signal<InputCarteP3>;
+  get numeroCartaStringa(): string {
+    return this.inputCarta().numero;
+  }
 
+  get numeroCartaInt(): number{
+    return Number(this.inputCarta().numero);
+  }
 }
 
