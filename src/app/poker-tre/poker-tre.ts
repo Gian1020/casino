@@ -48,8 +48,8 @@ export class PokerTre {
   numeroCarteVisualizzazioneMazzo: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
   //var per comunicazione con componente app-user-card
-  cardUtenteSignalPoker3: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER", punteggio: 0, country: "Italy" });
-  cardPcSignalPoker3: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER_PC", punteggio: 0, country: "Space" });
+  cardUtenteSignalPoker3: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER", punteggio: this.punteggioUtene, country: "Italy" });
+  cardPcSignalPoker3: WritableSignal<InputUser> = signal<InputUser>({ nome: "USER_PC", punteggio: this.punteggioPc, country: "Space" });
   cardDrowSignalPoker3: WritableSignal<InputUser> = signal<InputUser>({ nome: "NoWinner", punteggio: 4, country: "" });
   textVignettaSignalPoker3: WritableSignal<InputVignetta> = signal<InputVignetta>({ commento: "" });
 
@@ -86,15 +86,15 @@ export class PokerTre {
       }
       this.aggiornaCarteUtente();
       this.aggiornaCartePc();
-      this.aggiornaCardUtente();
-      this.aggiornaCardPc()
       this.sfoltisciMazzo();
       this.aggiornaMazzo();
       //funzione che controlla la vittoria
       this.checkWinnerRound(this.controlloMaxPunteggio(this.carteUtente), this.controlloMaxPunteggio(this.cartePc));
-
+      this.aggiornaCardUtente();
+      this.aggiornaCardPc();
       this.commentoVincitoreRound = "Ha vinto il giocatore " + this.stringaComboRound + " il round n. " + this.contatoreClick;
       this.aggiornaVignetta();
+      if(this.contatoreClick==8){this.checkWinnerFinale();}
     }
   }
 
@@ -328,7 +328,6 @@ export class PokerTre {
             this.stringaComboRound = "il PC con " + comboMaxPc.nomeCombo;
           }
         }
-
         break;
       }
 
@@ -382,20 +381,39 @@ export class PokerTre {
     }
   }
 
+  checkWinnerFinale() {
+    if (this.punteggioUtene > this.punteggioPc) {
+      this.flagVincitorePartita = 1;
+
+    }
+    else if (this.punteggioUtene < this.punteggioPc) {
+      this.flagVincitorePartita = 2;
+    }
+
+
+    else if ((this.punteggioUtene == this.punteggioPc)) {
+      this.flagVincitorePartita = 3;
+    }
+  
+}
+
   private router = inject(Router);
 
   tornaHome() {
     this.router.navigate(['']);
   }
   reset() {
-
+    this.contatoreClick = 0;
+    this.numeroCarteVisualizzazioneMazzo = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    this.flagVincitorePartita = 0;
     this.resetCardUtente();
     this.resetCardPc();
     this.resetCarteUtente();
     this.resetCartePc();
     this.resetVignetta();
     this.resetMazzo();
-
+    this.logicaMazzo.mischia();
+    this.mazzo = [...this.logicaMazzo.mazzo];
   }
 }
 

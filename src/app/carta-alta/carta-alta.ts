@@ -120,6 +120,14 @@ export class CartaAlta {
     this.cardPcSignalCartaAlta.set({ nome: "USER_PC", punteggio: this.punteggio2, country: "Space" })
   }
 
+   resetCardUtente() {
+    this.cardUtenteSignalCartaAlta.set({ nome: "USER", punteggio: 0, country: "Italy" })
+  }
+
+  resetCardPc() {
+    this.cardPcSignalCartaAlta.set({ nome: "USER_PC", punteggio: 0, country: "Space" })
+  }
+
   aggiornaMazzo() {
     this.mazzoSignalCartaAlta.set({ contatoreClick: this.contatoreClick, lunghezzaMazzo: this.mazzo.length, valoreBloccoClick: 0, arrCarteSfoltireMazzo: this.arrCarteSfoltireMazzo, gioco:"cartaAlta"  })
   }
@@ -207,11 +215,15 @@ export class CartaAlta {
     this.router.navigate(['']);
   }
   reset() {
+    this.punteggio1=0;
+    this.punteggio2=0;
     this.contatoreClick = 0;
     this.arrCarteSfoltireMazzo = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     this.flagVincitorePartita = 0;
     this.resetMazzo();
     this.resetUtente();
+    this.resetCardPc()
+    this.resetCardUtente()
     this.resetPc();
     this.resetVignetta();
     this.logicaMazzo.mischia();
